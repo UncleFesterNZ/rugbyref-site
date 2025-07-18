@@ -1,16 +1,409 @@
----
-
----
-
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>RugbyREF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style is:global>
+      :root {
+        --bg1: #0a0e2a;
+        --bg2: #1a0a2d;
+        --overlay: rgba(0, 0, 0, 0.6);
+        --font: 'Helvetica Neue', sans-serif;
+        --fg: #ffffff;
+        --accent: #00ff99;
+        --highlightText: #0033cc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: var(--font);
+        color: var(--fg);
+        background: linear-gradient(to bottom right, var(--bg1), var(--bg2));
+        overflow: hidden;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        background-image: url("/images/watermark_one.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.15;
+        filter: blur(3px);
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        background-color: var(--overlay);
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      main {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 0.9fr 2.1fr 1fr;
+        grid-template-rows: auto auto 1fr auto auto;
+        grid-template-areas:
+          "header header menu"
+          "highlight highlight highlight"
+          "ladder news calendar"
+          ". tagline ."
+          "footer footer footer";
+        height: 100vh;
+        padding: 2rem;
+        gap: 2rem;
+      }
+
+      header {
+        grid-area: header;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        z-index: 5;
+        margin-bottom: 0;
+      }
+
+      .menu {
+        grid-area: menu;
+        text-align: right;
+        align-self: start;
+        font-size: 1rem;
+        opacity: 0.8;
+        padding-top: 1rem;
+      }
+
+      .menu nav a {
+        margin-left: 1.5rem;
+        text-decoration: none;
+        color: var(--fg);
+      }
+
+      .menu nav a:hover {
+        color: var(--accent);
+      }
+
+      .icon {
+        height: 115px;
+        width: auto;
+      }
+
+      .logo {
+        height: 105px;
+        width: auto;
+        margin-bottom: 0;
+      }
+
+      .menu-icon {
+        height: 40px;
+        width: auto;
+        margin-top: 2.5rem;
+        margin-left: 0.5rem;
+        opacity: 0.75;
+        transition: transform 0.2s ease;
+      }
+
+      .menu-icon:hover {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      .highlight-strip {
+        grid-area: highlight;
+        background: linear-gradient(to right,
+          rgba(0, 255, 153, 0) 0%,
+          #2FFD01 25%,
+          #2FFD01 75%,
+          rgba(0, 255, 153, 0) 100%);
+        padding: 0.25rem 0.5rem;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #0E0D20;
+        border-radius: 8px;
+      }
+
+      .panel {
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 1rem;
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      }
+
+      .referee-window {
+        background: linear-gradient(to bottom, #101f3c 0%, #2a0c0c 100%);
+        border: 2px solid #2FFD01;
+        border-radius: 14px;
+        box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
+        padding: 1rem 1.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+        max-height: 700px; /* ⬅️ adjust until everything fits comfortably */
+        overflow: hidden;
+      }
+
+      .referee-caption {
+        margin-bottom: 0.6rem; /* ⬅️ adjust as needed (e.g., 0.8rem or 1rem) */
+      }
+      
+      .ladder-table {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-right: 4px; /* prevents scrollbar overlap */
+      }
+
+      /* ✅ Thumbnail - 20% Bigger */
+      .ref-icon {
+        height: 38px;
+        width: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        margin-left: 0.25rem;
+        margin-right: 0.5rem; /* space after icon */
+      }
+
+      /* ✅ Ref Rank & Name Alignment */
+      .ref-rank {
+        font-weight: bold;
+        text-align: right;
+        color: #ffffff;
+        margin-right: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      /* ✅ Ref Name pulled left */
+      .ref-name {
+        flex: 1;
+        font-weight: medium;
+        color: #ffffff;
+        margin-right: 0.5rem;
+      }
+
+      /* ✅ Smaller Flags */
+      .flag-icon {
+        height: 13px;         /* 30% smaller */
+        width: auto;
+        margin-right: 1rem; /* tighter spacing */
+        flex-shrink: 0;
+      }
+
+      /* ✅ Tighter Row Spacing */
+      .ladder-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.10rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* ✅ Resize Info Button Bottom Left */
+      .info-icon {
+        position: absolute;
+        bottom: 0.5rem;
+        left: 2rem;
+        height: 28px;
+        width: auto;
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .more-link {
+        position: absolute;
+        bottom: 1rem;
+        right: 2rem;
+        font-size: 0.85rem;
+        color: white;
+        opacity: 0.85;
+      }
+
+      .ref-score {
+        font-weight: medium;
+        color: #2FFD01;
+        margin-right: 0.5rem;
+      }
+
+      #ladder { grid-area: ladder; }
+      #news { grid-area: news; }
+      #calendar { grid-area: calendar; }
+
+      .tagline {
+        grid-area: tagline;
+        text-align: center;
+        font-size: 1.2rem;
+        opacity: 0.95;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .tagline img {
+        height: 33px;
+        vertical-align: middle;
+      }
+
+      .tagline a {
+        color: #00FFFF;
+        text-decoration: none;
+        font-weight: normal;
+      }
+
+      footer {
+        grid-area: footer;
+        text-align: center;
+        font-size: 0.8rem;
+        opacity: 0.5;
+        padding-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="/images/rugbyref-icon.svg" alt="Whistle + SM Icon" class="icon" />
+        <img src="/images/rugbyref-logo.svg" alt="RugbyREF Logo" class="logo" />
+      </header>
+
+      <div class="menu">
+        <nav>
+          <a href="/"><img src="/images/menu_home.svg" alt="Home" class="menu-icon" /></a>
+          <a href="/about"><img src="/images/menu_about_us.svg" alt="About Us" class="menu-icon" /></a>
+          <a href="/app"><img src="/images/menu_app_ref.svg" alt="RugbyRef App" class="menu-icon" /></a>
+          <a href="/development"><img src="/images/menu_app_dev.svg" alt="App Dev" class="menu-icon" /></a>
+          <a href="/contact"><img src="/images/menu_contact_us.svg" alt="Contact Us" class="menu-icon" /></a>
+        </nav>
+      </div>
+
+      <div class="highlight-strip">
+        Rugby News &nbsp; • &nbsp; Referee Updates &nbsp; • &nbsp; Referee Rankings &nbsp; • &nbsp; Upcoming Events
+      </div>
+
+      <div id="ladder" class="referee-window">
+      <!-- Caption Header SVG -->
+      <img src="/images/referee_caption.svg" alt="RugbyREF Referee Caption" class="referee-caption" />
+
+      <!-- Static Top 10 Referee Table -->
+      <div class="ladder-table">
+        <div class="ladder-row">
+          <img src="/images/referees/ben_okeeffe.png" class="ref-icon" />
+          <span class="ref-rank">1.</span>
+          <span class="ref-name">Ben O’Keeffe</span>
+          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+          <span class="ref-score">13.775</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/angus_gardner.png" class="ref-icon" />
+          <span class="ref-rank">2.</span>
+          <span class="ref-name">Angus Gardner</span>
+          <img src="https://flagcdn.com/w40/au.png" class="flag-icon" alt="AU" />
+          <span class="ref-score">13.550</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/andrew_brace.png" class="ref-icon" />
+          <span class="ref-rank">3.</span>
+          <span class="ref-name">Andrew Brace</span>
+          <img src="https://flagcdn.com/w40/ie.png" class="flag-icon" alt="IE" />
+          <span class="ref-score">13.440</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/paul_williams.png" class="ref-icon" />
+          <span class="ref-rank">4.</span>
+          <span class="ref-name">Paul Williams</span>
+          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+          <span class="ref-score">13.380</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/james_doleman.png" class="ref-icon" />
+          <span class="ref-rank">5.</span>
+          <span class="ref-name">James Doleman</span>
+          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+          <span class="ref-score">13.300</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/karl_dickson.png" class="ref-icon" />
+          <span class="ref-rank">6.</span>
+          <span class="ref-name">Karl Dickson</span>
+          <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
+          <span class="ref-score">13.175</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/hollie_davidson.png" class="ref-icon" />
+          <span class="ref-rank">7.</span>
+          <span class="ref-name">Hollie Davidson</span>
+          <img src="https://flagcdn.com/w40/gb-sct.png" class="flag-icon" alt="SCO" />
+          <span class="ref-score">13.150</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/andrea_piardi.png" class="ref-icon" />
+          <span class="ref-rank">8.</span>
+          <span class="ref-name">Andrea Piardi</span>
+          <img src="https://flagcdn.com/w40/it.png" class="flag-icon" alt="ITA" />
+          <span class="ref-score">12.930</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/nika_amashukeli.png" class="ref-icon" />
+          <span class="ref-rank">9.</span>
+          <span class="ref-name">Nika Amashukeli</span>
+          <img src="https://flagcdn.com/w40/ge.png" class="flag-icon" alt="GEO" />
+          <span class="ref-score">12.880</span>
+        </div>
+        <div class="ladder-row">
+          <img src="/images/referees/christophe_ridley.png" class="ref-icon" />
+          <span class="ref-rank">10.</span>
+          <span class="ref-name">Christophe Ridley</span>
+          <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
+          <span class="ref-score">12.715</span>
+        </div>
+      </div>
+
+      <!-- Bottom Left Info Icon -->
+      <img src="/images/icon_info.svg" alt="Info Icon" class="info-icon" />
+      <span class="more-link">...more</span>
+    </div>
+
+      <div id="news" class="panel">
+        <strong>RUGBY NEWS</strong><br />
+        (News Feed Placeholder)
+      </div>
+
+      <div id="calendar" class="panel">
+        <strong>UPCOMING EVENTS</strong><br />
+        (Calendar Placeholder)
+      </div>
+
+      <div class="tagline">
+        <img src="/images/TikTok.png" alt="TikTok Logo" />
+        Follow #UncleFester on TikTok for Game Analysis, Referee & Law Reviews 
+        <a href="https://www.tiktok.com/@MyRugbyREF" target="_blank">@RugbyREF</a>
+      </div>
+
+      <footer>
+        RugbyREF &copy; 2025 — All rights reserved
+      </footer>
+    </main>
+  </body>
 </html>
