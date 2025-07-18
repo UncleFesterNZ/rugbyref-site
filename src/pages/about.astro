@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Us">
+  <main class="about-wrapper">
+    <div class="about-panel">
+      <h1>About RugbyREF</h1>
+      <p>
+        RugbyREF, a movement born on the field...<br /><br />
+        In 2017, returning to the game after a long break, a Referee realised something was missing… There was NO Mobile APP specifically designed for Rugby Referees to support and manage the game on the run, not one, Not Scoring, Cards or Subs Management…<br /><br />
+        So the Old Fella opened a bottle of Whiskey and with no formal coding experience and no Development Team in sight, decided to build it anyway. RugbyREF launched on iOS in 2018, followed by the world’s first RugbyREF App later that year.<br /><br />
+        Since then, RugbyREF has evolved through relentless testing, sideline experimentation, and community feedback as SketchNZ, always built around real practical rugby support.<br /><br />
+        Today, RugbyREF is used in 17 countries, from local clubs in New Zealand, Australia and South Africa to test fixtures in Europe and the most unlikely places such as Malaysia & Chile. Every update, every feature, and every tap is built by someone who still puts on the whistle, every season.
+      </p>
+
+      <div class="fester-section">
+        <img src="/images/half_fester.svg" alt="Uncle Fester Thinking" class="fester-img" />
+        <div class="fester-text">
+          <h2>Who's #UncleFester..?</h2>
+          <p>
+            You may know us through TikTok as #UncleFester, the slightly odd but highly passionate Rugby Law Whisperer, well that’s me. The same Referee behind the app, albeit a little more passionate online.<br /><br />
+            UncleFester is where Education meets Entertainment, Demystifying Referee Calls, Explaining Rugby Laws, and the occasional Referee Performance Rating with a whiskey glass or three 🥃<br /><br />
+            Behind the persona is an Active, Qualified, Accredited Match Official with decades in the game, from former Player, Senior Referee and Match Official for the HSBC 7’s, SuperRugby and in 2025 Appointed as part of the Rugby World Cup Qualifier Sideline Crew.<br /><br />
+            But this isn’t about ego, RugbyREF is about giving back to the sport, helping fellow refs, and building a platform that promotes better understanding of the Law and Referee Performance with both credibility and a bit of fun.
+          </p>
+        </div>
+      </div>
+
+      <div class="whats-next">
+        <h2>🛠 What’s Next?</h2>
+        <ul>
+          <li>A full Android build is underway</li>
+          <li>New apps <strong>SidelineManager</strong> and <strong>CardReview</strong> are joining the family</li>
+          <li>Custom referee and sports tech tools may be just around the corner…</li>
+        </ul>
+        <p>We’re just getting started.<br /><br />Thanks for being part of our journey 🙌 For updates, news and the occasional “whiskey”, join the debate and follow #UncleFester on TikTok <a href="https://www.tiktok.com/@myrugbyref" target="_blank">@myrugbyref</a></p>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .about-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      height: 100vh;
+    }
+
+    .about-panel {
+      max-width: 1050px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.4);
+      backdrop-filter: blur(4px);
+      color: white;
+    }
+
+    .fester-section {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 2rem;
+      gap: 2rem;
+    }
+
+    .fester-img {
+      height: 120px;
+      width: auto;
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+    }
+
+    .fester-text {
+      flex: 1;
+    }
+
+    .whats-next {
+      margin-top: 2rem;
+    }
+
+    .whats-next ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    a {
+      color: #00FFFF;
+    }
+  </style>
+</Layout>
