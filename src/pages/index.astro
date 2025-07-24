@@ -15,9 +15,7 @@
         --highlightText: #0033cc;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       html, body {
         margin: 0;
@@ -30,36 +28,20 @@
         position: relative;
       }
 
-      body::before {
-        content: "";
-        background-image: url("/images/watermark_one.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        opacity: 0.15;
-        filter: blur(3px);
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-      }
-
       body::after {
         content: "";
         background-color: var(--overlay);
         position: fixed;
         top: 0; left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
+        width: 100%; height: 100%;
+        z-index: 0;
       }
 
       main {
         position: relative;
         z-index: 2;
         display: grid;
-        grid-template-columns: 0.9fr 2.1fr 1fr;
+        grid-template-columns: 0.8fr 2.35fr 0.85fr;
         grid-template-rows: auto auto 1fr auto auto;
         grid-template-areas:
           "header header menu"
@@ -69,7 +51,7 @@
           "footer footer footer";
         height: 100vh;
         padding: 2rem;
-        gap: 2rem;
+        gap: 1.2rem;
       }
 
       header {
@@ -80,6 +62,7 @@
         gap: 1.5rem;
         z-index: 5;
         margin-bottom: 0;
+        padding-bottom: 0.25rem;
       }
 
       .menu {
@@ -112,17 +95,25 @@
         margin-bottom: 0;
       }
 
+      .sideline-logo {
+        height: 90px;    /* 🔽 Adjust this for scaling */
+        width: auto;
+        margin-left: 0.5rem;
+        margin-bottom: 0.2rem;
+      }
+
       .menu-icon {
         height: 40px;
         width: auto;
         margin-top: 2.5rem;
-        margin-left: 0.5rem;
+        margin-left: 0.2rem;
+        margin-right: 0.2rem;
         opacity: 0.75;
         transition: transform 0.2s ease;
       }
 
       .menu-icon:hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
         opacity: 1;
       }
 
@@ -156,62 +147,66 @@
         border-radius: 14px;
         box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
         padding: 1rem 1.5rem;
-        height: 100%;
+        flex-grow: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         position: relative;
-        max-height: 700px; /* ⬅️ adjust until everything fits comfortably */
+        max-height: none;
         overflow: hidden;
       }
 
       .referee-caption {
-        margin-bottom: 0.6rem; /* ⬅️ adjust as needed (e.g., 0.8rem or 1rem) */
+        height: 50px;        /* ⬅️ or adjust as needed */
+        width: auto;
+        margin-bottom: 0.6rem;
       }
-      
+
       .ladder-table {
         overflow-y: auto;
         flex-grow: 1;
-        padding-right: 4px; /* prevents scrollbar overlap */
+        padding-right: 4px;
       }
 
-      /* ✅ Thumbnail - 20% Bigger */
       .ref-icon {
         height: 38px;
         width: 38px;
         border-radius: 50%;
         object-fit: cover;
         flex-shrink: 0;
-        margin-left: 0.25rem;
-        margin-right: 0.5rem; /* space after icon */
+        margin-left: 0.1rem;
+        margin-right: 0.5rem;
       }
 
-      /* ✅ Ref Rank & Name Alignment */
       .ref-rank {
-        font-weight: bold;
+        font-weight: medium;
         text-align: right;
         color: #ffffff;
         margin-right: 0.5rem;
         flex-shrink: 0;
       }
 
-      /* ✅ Ref Name pulled left */
       .ref-name {
         flex: 1;
         font-weight: medium;
         color: #ffffff;
-        margin-right: 0.5rem;
+        margin-right: 0.75rem;
       }
 
-      /* ✅ Smaller Flags */
       .flag-icon {
-        height: 13px;         /* 30% smaller */
+        height: 12px;
         width: auto;
-        margin-right: 1rem; /* tighter spacing */
+        margin-right: 1rem;
         flex-shrink: 0;
       }
 
-      /* ✅ Tighter Row Spacing */
+      .ref-score {
+        font-weight: medium;
+        color: #2FFD01;
+        margin-right: 0.1rem;
+      }
+
       .ladder-row {
         display: flex;
         align-items: center;
@@ -220,11 +215,10 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      /* ✅ Resize Info Button Bottom Left */
       .info-icon {
         position: absolute;
         bottom: 0.5rem;
-        left: 2rem;
+        left: 1.75rem;
         height: 28px;
         width: auto;
         opacity: 1;
@@ -234,16 +228,36 @@
       .more-link {
         position: absolute;
         bottom: 1rem;
-        right: 2rem;
+        right: 3rem;
         font-size: 0.85rem;
         color: white;
         opacity: 0.85;
       }
 
-      .ref-score {
-        font-weight: medium;
-        color: #2FFD01;
-        margin-right: 0.5rem;
+      .ladder-scaler {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .ladder-content {
+        transform-origin: top left;
+        transform: scale(0.95);
+      }
+
+      @media (max-height: 900px) {
+        .ladder-content { transform: scale(0.95); }
+      }
+
+      @media (max-height: 800px) {
+        .ladder-content { transform: scale(0.9); }
+      }
+
+      @media (max-height: 700px) {
+        .ladder-content { transform: scale(0.85); }
       }
 
       #ladder { grid-area: ladder; }
@@ -277,15 +291,220 @@
         text-align: center;
         font-size: 0.8rem;
         opacity: 0.5;
-        padding-top: 1rem;
+        padding-top: 0.1rem;
       }
-    </style>
-  </head>
+
+      .news-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem;
+      }
+
+      .news-caption {
+        font-size: 2.5rem;
+        font-weight: medium;
+        color: white;
+        margin-bottom: 0.5rem;
+      }
+
+      .news-scroll {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-right: 6px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 0.5rem;
+        gap: 1rem;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+      }
+
+      .news-item {
+        display: flex;
+        gap: 1rem;
+        background-color: rgba(255, 255, 255, 0.03);
+        padding: 0.5rem;
+        border-radius: 0.75rem;
+        align-items: flex-start;
+        min-height: 120px;
+      }
+
+      .news-thumb {
+        width: auto;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      .news-title {
+        font-size: 1.05rem;
+        font-weight: normal;
+        text-decoration: underline;
+        color: #00FFFF; /* Cyan */
+        margin-bottom: 0.25rem;
+        padding-top: 0.5rem;
+      }
+
+      .news-intro {
+        font-size: 0.95rem;
+        color: white;
+        margin-bottom: 0.25rem;
+        line-height: 1.25rem;
+      }
+
+      .news-link {
+        font-size: 0.85rem;
+        color: #2FFD01; /* Lime Green */
+        text-decoration: none;
+        margin-top: auto;
+      }
+
+      .news-link:hover {
+        text-decoration: underline;
+      }
+
+      .news-link:hover {
+        text-decoration: underline;
+      }
+
+      .news-archive {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #2FFD01;
+        text-align: right;
+        cursor: pointer;
+        padding-right: 0.5rem;
+      }
+
+      /* EVENTS PANEL STYLING */
+      .event-panel {
+        display: flex;
+        flex-direction: column;
+        border: 2px solid #0000FF; /* Bright blue */
+        border-radius: 1rem;
+        background: linear-gradient(to bottom, #001a33, #003366);
+        padding: 1rem;
+        height: 100%;
+        overflow: hidden;
+        box-shadow: 0 0 25px #0000FF;
+      }
+
+      .event-caption {
+        font-size: 1.7rem;
+        font-weight: medium;
+        text-align: left;
+      }
+
+      .event-divider {
+        height: 2px;
+        background-color: rgba(255, 255, 255, 0.25); /* semi-transparent white */
+        margin-bottom: 0.25rem;
+        margin-top: 0.5rem;
+        width: 100%;
+      }
+
+      .live-label {
+        color: #00FF00; /* Green */
+      }
+
+      .and-label {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: normal;
+        margin: 0 0.25rem;
+      }
+
+      .upcoming-label {
+        color: #00FFFF; /* Cyan */
+      }
+
+      .event-scroll {
+        flex-grow: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-top: 10px;
+        padding-right: 4px;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+      }
+
+      .event-item {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.04);
+        padding: 0.6rem 0.75rem;
+        border-radius: 0.5rem;
+      }
+
+      .event-date {
+        font-size: 1rem;
+        color: #00FFFF;
+        font-weight: medium;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .event-match {
+        font-size: 0.95rem;
+        color: white;
+        margin-bottom: 0.15rem;
+      }
+
+      .event-ref {
+        font-size: 0.85rem;
+        color: #cccccc;
+      }
+
+      .event-more {
+        color: #aaaaaa;
+        font-size: 0.85rem;
+        cursor: pointer;
+        margin-left: 0.25rem;
+      }
+
+      /* SCROLLBAR CUSTOM STYLING */
+      .event-scroll::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .event-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .event-scroll::-webkit-scrollbar-thumb {
+        background-color: #00ffff; /* Cyan Thumb */
+        border-radius: 6px;
+        border: 2px solid #001a33; /* Inner padding using event bg */
+      }
+
+      .event-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: #00ddff;
+      }
+
+      .global-watermark {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 1;  /* ✅ FIXED: now appears above the overlay */
+      }
+
+      </style>
+    </head>
   <body>
     <main>
       <header>
         <img src="/images/rugbyref-icon.svg" alt="Whistle + SM Icon" class="icon" />
         <img src="/images/rugbyref-logo.svg" alt="RugbyREF Logo" class="logo" />
+        <img src="/images/sideline_manager.svg" alt="SidelineManager Logo" class="sideline-logo" />
       </header>
 
       <div class="menu">
@@ -303,96 +522,180 @@
       </div>
 
       <div id="ladder" class="referee-window">
-      <!-- Caption Header SVG -->
-      <img src="/images/referee_caption.svg" alt="RugbyREF Referee Caption" class="referee-caption" />
+        <img src="/images/referee_caption.svg" alt="RugbyREF Referee Caption" class="referee-caption" />
 
-      <!-- Static Top 10 Referee Table -->
-      <div class="ladder-table">
-        <div class="ladder-row">
-          <img src="/images/referees/ben_okeeffe.png" class="ref-icon" />
-          <span class="ref-rank">1.</span>
-          <span class="ref-name">Ben O’Keeffe</span>
-          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
-          <span class="ref-score">13.775</span>
+        <div class="ladder-scaler">
+          <div class="ladder-content">
+            <div class="ladder-table">
+              <div class="ladder-row">
+                <img src="/images/referees/ben_okeeffe.png" class="ref-icon" />
+                <span class="ref-rank">1.</span>
+                <span class="ref-name">Ben O’Keeffe</span>
+                <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+                <span class="ref-score">13.775</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/angus_gardner.png" class="ref-icon" />
+                <span class="ref-rank">2.</span>
+                <span class="ref-name">Angus Gardner</span>
+                <img src="https://flagcdn.com/w40/au.png" class="flag-icon" alt="AU" />
+                <span class="ref-score">13.550</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/andrew_brace.png" class="ref-icon" />
+                <span class="ref-rank">3.</span>
+                <span class="ref-name">Andrew Brace</span>
+                <img src="https://flagcdn.com/w40/ie.png" class="flag-icon" alt="IE" />
+                <span class="ref-score">13.440</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/paul_williams.png" class="ref-icon" />
+                <span class="ref-rank">4.</span>
+                <span class="ref-name">Paul Williams</span>
+                <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+                <span class="ref-score">13.380</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/james_doleman.png" class="ref-icon" />
+                <span class="ref-rank">5.</span>
+                <span class="ref-name">James Doleman</span>
+                <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
+                <span class="ref-score">13.300</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/karl_dickson.png" class="ref-icon" />
+                <span class="ref-rank">6.</span>
+                <span class="ref-name">Karl Dickson</span>
+                <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
+                <span class="ref-score">13.175</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/hollie_davidson.png" class="ref-icon" />
+                <span class="ref-rank">7.</span>
+                <span class="ref-name">Hollie Davidson</span>
+                <img src="https://flagcdn.com/w40/gb-sct.png" class="flag-icon" alt="SCO" />
+                <span class="ref-score">13.150</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/andrea_piardi.png" class="ref-icon" />
+                <span class="ref-rank">8.</span>
+                <span class="ref-name">Andrea Piardi</span>
+                <img src="https://flagcdn.com/w40/it.png" class="flag-icon" alt="ITA" />
+                <span class="ref-score">12.930</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/nika_amashukeli.png" class="ref-icon" />
+                <span class="ref-rank">9.</span>
+                <span class="ref-name">Nika Amashukeli</span>
+                <img src="https://flagcdn.com/w40/ge.png" class="flag-icon" alt="GEO" />
+                <span class="ref-score">12.880</span>
+              </div>
+              <div class="ladder-row">
+                <img src="/images/referees/christophe_ridley.png" class="ref-icon" />
+                <span class="ref-rank">10.</span>
+                <span class="ref-name">Christophe Ridley</span>
+                <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
+                <span class="ref-score">12.715</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="ladder-row">
-          <img src="/images/referees/angus_gardner.png" class="ref-icon" />
-          <span class="ref-rank">2.</span>
-          <span class="ref-name">Angus Gardner</span>
-          <img src="https://flagcdn.com/w40/au.png" class="flag-icon" alt="AU" />
-          <span class="ref-score">13.550</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/andrew_brace.png" class="ref-icon" />
-          <span class="ref-rank">3.</span>
-          <span class="ref-name">Andrew Brace</span>
-          <img src="https://flagcdn.com/w40/ie.png" class="flag-icon" alt="IE" />
-          <span class="ref-score">13.440</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/paul_williams.png" class="ref-icon" />
-          <span class="ref-rank">4.</span>
-          <span class="ref-name">Paul Williams</span>
-          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
-          <span class="ref-score">13.380</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/james_doleman.png" class="ref-icon" />
-          <span class="ref-rank">5.</span>
-          <span class="ref-name">James Doleman</span>
-          <img src="https://flagcdn.com/w40/nz.png" class="flag-icon" alt="NZ" />
-          <span class="ref-score">13.300</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/karl_dickson.png" class="ref-icon" />
-          <span class="ref-rank">6.</span>
-          <span class="ref-name">Karl Dickson</span>
-          <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
-          <span class="ref-score">13.175</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/hollie_davidson.png" class="ref-icon" />
-          <span class="ref-rank">7.</span>
-          <span class="ref-name">Hollie Davidson</span>
-          <img src="https://flagcdn.com/w40/gb-sct.png" class="flag-icon" alt="SCO" />
-          <span class="ref-score">13.150</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/andrea_piardi.png" class="ref-icon" />
-          <span class="ref-rank">8.</span>
-          <span class="ref-name">Andrea Piardi</span>
-          <img src="https://flagcdn.com/w40/it.png" class="flag-icon" alt="ITA" />
-          <span class="ref-score">12.930</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/nika_amashukeli.png" class="ref-icon" />
-          <span class="ref-rank">9.</span>
-          <span class="ref-name">Nika Amashukeli</span>
-          <img src="https://flagcdn.com/w40/ge.png" class="flag-icon" alt="GEO" />
-          <span class="ref-score">12.880</span>
-        </div>
-        <div class="ladder-row">
-          <img src="/images/referees/christophe_ridley.png" class="ref-icon" />
-          <span class="ref-rank">10.</span>
-          <span class="ref-name">Christophe Ridley</span>
-          <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-icon" alt="ENG" />
-          <span class="ref-score">12.715</span>
+
+        <img src="/images/icon_info.svg" alt="Info Icon" class="info-icon" />
+        <span class="more-link">...more</span>
+      </div>
+
+      <div id="news" class="news-container">
+        <div class="news-caption">World Rugby News and Current Highlights</div>
+        <div class="news-scroll">
+          <!-- News Item 1 -->
+          <div class="news-item">
+            <img class="news-thumb" src="/images/news/worldrugby.png" alt="World Rugby" />
+            <div class="news-text">
+              <div class="news-title">World Rugby Statement (Argentina vs England)</div>
+              <div class="news-intro">On 15 July, World Rugby received an official complaint from England Rugby regarding racist abuse directed at their players by spectators during...</div>
+              <a class="news-link" href="https://www.world.rugby/news/1002071/world-rugby-statement-argentina-v-england" target="_blank">Read Full Article →</a>
+            </div>
+          </div>
+
+          <!-- News Item 2 -->
+          <div class="news-item">
+            <img class="news-thumb" src="/images/news/worldrugby.png" alt="World Rugby" />
+            <div class="news-text">
+              <div class="news-title">South Africa win u20 World Cup</div>
+              <div class="news-intro">South Africa ended a 13-year wait for a second World Rugby U20 Championship title after beating New Zealand 23-15 in the final...</div>
+              <a class="news-link" href="https://www.world.rugby/news/1001962/win-world-rugby-u20-championship-2025-title" target="_blank">Read Full Article →</a>
+            </div>
+          </div>
+
+          <!-- News Item 3 -->
+          <div class="news-item">
+            <img class="news-thumb" src="/images/news/worldrugby.png" alt="World Rugby" />
+            <div class="news-text">
+              <div class="news-title">Women’s Rugby World Cup 2025 champions sustainable innovation</div>
+              <div class="news-intro">World Rugby continues its efforts to drive positive change across the sport through its major competitions...</div>
+              <a class="news-link" href="https://www.rugbyworldcup.com/2025/en/news/1001907/womens-rugby-world-cup-2025-champions-sustainable-innovation-across-official-host-venues-in-england" target="_blank">Read Full Article →</a>
+            </div>
+          </div>
+
+          <!-- News Archive CTA -->
+          <div class="news-archive">Last 14 Day News Archive →</div>
         </div>
       </div>
 
-      <!-- Bottom Left Info Icon -->
-      <img src="/images/icon_info.svg" alt="Info Icon" class="info-icon" />
-      <span class="more-link">...more</span>
-    </div>
+      <!-- EVENTS PANEL -->
+      <div id="calendar" class="event-panel">
+        <div class="event-caption">
+          <span class="live-label">LIVE</span>
+          <span class="and-label"> and </span>
+          <span class="upcoming-label">Upcoming</span>
+        </div>
 
-      <div id="news" class="panel">
-        <strong>RUGBY NEWS</strong><br />
-        (News Feed Placeholder)
-      </div>
+      <div class="event-divider"></div>
 
-      <div id="calendar" class="panel">
-        <strong>UPCOMING EVENTS</strong><br />
-        (Calendar Placeholder)
+        <!-- Scrollable List of Upcoming Fixtures -->
+        <div class="event-scroll">
+          <div class="event-item">
+            <div class="event-date">Sat 26/07/2025 @ TBD</div>
+            <div class="event-match">Australia v B&I Lions (MCG)</div>
+            <div class="event-ref">Referee: Andrea Piardi <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 02/08/2025 @ TBD</div>
+            <div class="event-match">Australia v B&I Lions (Sydney)</div>
+            <div class="event-ref">Referee: Nika Amashukeli <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 16/08/2025 @ TBD</div>
+            <div class="event-match">South Africa v Australia (Ellispark)</div>
+            <div class="event-ref">Referee: Ben O'Keeffe <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 16/08/2025 @ TBD</div>
+            <div class="event-match">Argentina v New Zealand (Cordoba)</div>
+            <div class="event-ref">Referee: Pierre Brousset <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Fri 22/08/2025 @ TBD</div>
+            <div class="event-match">England v USA (Sunderland, Eng)</div>
+            <div class="event-ref">Referee: Aimee Barrett-Theron <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 23/08/2025 @ TBD</div>
+            <div class="event-match">South Africa v Australia (CapeTown)</div>
+            <div class="event-ref">Referee: James Doleman <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 23/08/2025 @ TBD</div>
+            <div class="event-match">Australia v Samoa (Manchester, Eng)</div>
+            <div class="event-ref">Referee: Lauren Jenner <span class="event-more">...more</span></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Sat 23/08/2025 @ TBD</div>
+            <div class="event-match">Scotland v Wales (Manchester, Eng)</div>
+            <div class="event-ref">Referee: Maggie Cogger-Orr <span class="event-more">...more</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="tagline">
@@ -405,5 +708,23 @@
         RugbyREF &copy; 2025 — All rights reserved
       </footer>
     </main>
+    <img id="stadium-watermark" class="global-watermark" alt="Stadium Watermark" />
+    <script>
+      const watermarks = [
+        '/images/stadiums/watermark_one.png',
+        '/images/stadiums/watermark_two.png',
+        '/images/stadiums/watermark_three.png',
+        '/images/stadiums/watermark_four.png',
+        '/images/stadiums/watermark_five.png',
+        '/images/stadiums/watermark_six.png',
+        '/images/stadiums/watermark_seven.png',
+        '/images/stadiums/watermark_eight.png'
+      ];
+
+      const selected = watermarks[Math.floor(Math.random() * watermarks.length)];
+      const watermark = document.getElementById('stadium-watermark');
+      if (watermark) watermark.src = selected;
+    </script>
   </body>
 </html>
+
