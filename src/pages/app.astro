@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="RugbyREF App Suite">
+  <main class="app-wrapper">
+    <div class="app-panel">
+      <h1>The RugbyREF App Suite</h1>
+      <p>
+        RugbyREF isn’t just an app — it’s a toolkit. Designed by an active match official and trusted by referees worldwide, each app below supports a different part of your match day.
+      </p>
+
+      <div class="app-grid">
+        <div class="app-card">
+          <h2>📱 RugbyREF</h2>
+          <p>
+            The original mobile app. Built from the ground up to track scores, manage subs, cards, and stoppages in real time. Compact, fast, and reliable — it's the essential sideline companion for every match.
+          </p>
+        </div>
+
+        <div class="app-card">
+          <h2>📋 SidelineManager</h2>
+          <p>
+            Developed for iPad, this powerhouse gives full visual control over the match — from yellow/red cards and injury assessments to time tracking and referee reporting. Ideal for team managers, match officials, and rugby administrators.
+          </p>
+        </div>
+
+        <div class="app-card">
+          <h2>📊 MyREF</h2>
+          <p>
+            Your own digital referee diary. Record match stats, key moments, performance ratings, and generate a personal Matrix Score across competitions. Designed for post-match reflection and official development.
+          </p>
+        </div>
+
+        <div class="app-card">
+          <h2>🟥 CardReview</h2>
+          <p>
+            A law-based review engine that helps coaches, refs, and panels assess in-game cards. Step-by-step logic based on World Rugby law guidelines ensures consistent, unbiased outcomes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .app-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      height: 100vh;
+    }
+
+    .app-panel {
+      max-width: 1100px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2.5rem;
+      border-radius: 14px;
+      box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
+      backdrop-filter: blur(5px);
+      color: white;
+    }
+
+    .app-panel h1 {
+      margin-bottom: 1rem;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .app-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 10px rgba(0, 255, 153, 0.2);
+    }
+
+    .app-card h2 {
+      margin-top: 0;
+      color: #00FFFF;
+    }
+
+    .app-card p {
+      font-size: 0.95rem;
+      line-height: 1.4rem;
+    }
+  </style>
+</Layout>
