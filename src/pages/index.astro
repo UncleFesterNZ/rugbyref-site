@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>RugbyREF</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="RugbyREF">
     <style is:global>
       :root {
         --bg1: #0a0e2a;
@@ -725,6 +723,6 @@
       const watermark = document.getElementById('stadium-watermark');
       if (watermark) watermark.src = selected;
     </script>
-  </body>
-</html>
+</Layout>
+
 
